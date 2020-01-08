@@ -10,8 +10,8 @@
 #
 
 function initialize {
-    if [ ! -e /proc/net/nf_conntrack ]; then
-        echo "Unable to find /proc/net/nf_conntrack"
+    if [ ! -e $CONNTRACK_ADDR ]; then
+        echo "Unable to find $CONNTRACK_ADDR"
         exit 1
     fi
 
@@ -79,7 +79,7 @@ function usage {
 }
 
 function calculate_top {
-    $CONNTRACK_CMD /proc/net/nf_conntrack | awk -v top=$TOP -v count=$COUNT -v max=$MAX '
+    $CONNTRACK_CMD $CONNTRACK_ADDR | awk -v top=$TOP -v count=$COUNT -v max=$MAX '
     $3=="tcp" {
         split($7, a, "=");
         split($8, b, "=");
